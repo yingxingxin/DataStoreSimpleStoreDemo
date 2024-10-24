@@ -1,6 +1,8 @@
 package edu.farmingdale.datastoresimplestoredemo
-
+import android.content.Context
+import java.io.PrintWriter
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import edu.farmingdale.datastoresimplestoredemo.data.AppPreferences
 import edu.farmingdale.datastoresimplestoredemo.ui.theme.DataStoreSimpleStoreDemoTheme
 import kotlinx.coroutines.launch
+import java.io.FileOutputStream
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +34,33 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        writeToInternalFile()
+        val fileContents = readFromInternalFile()
+        Log.d("MainActivity", fileContents)
+    }
+    private fun writeToInternalFile() {
+        val outputStream: FileOutputStream = openFileOutput("fav_haiku", Context.MODE_PRIVATE)
+        val writer = PrintWriter(outputStream)
+
+        // Write three lines
+        writer.println("This world of dew")
+        writer.println("is a world of dew,")
+        writer.println("and yet, and yet.")
+
+        writer.close()
+    }
+
+    private fun readFromInternalFile(): String {
+        val inputStream = openFileInput("fav_haiku")
+        val reader = inputStream.bufferedReader()
+        val stringBuilder = StringBuilder()
+
+        // Append each line and newline character to stringBuilder
+        reader.forEachLine {
+            stringBuilder.append(it).append("\n BCS 371 \n").append(System.lineSeparator())
+        }
+
+        return stringBuilder.toString()
     }
 }
 
@@ -57,4 +87,5 @@ fun DataStoreDemo(modifier: Modifier) {
 // ToDo 2: Modify the APP to store the username through a text field
 // ToDo 3: Modify the App to save the username when the button is clicked
 // ToDo 4: Modify the App to display the values stored in the DataStore
+
 

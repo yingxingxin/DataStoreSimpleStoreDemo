@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import edu.farmingdale.datastoresimplestoredemo.data.AppPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.FileOutputStream
+import java.io.PrintWriter
 
 class AppStorage ( private val context: Context) {
     companion object{
@@ -35,5 +37,6 @@ class AppStorage ( private val context: Context) {
             preferences[PreferencesKeys.USERNAME] = username
         }
     }
+
 
 }
